@@ -1,0 +1,6 @@
+# テストコードとコンパイル結果を除外
+src/TestConnection.java
+src/TestConnection.class
+
+# コンパイル結果のフォルダを除外
+bin/

@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "TestConnection",
+            "request": "launch",
+            "mainClass": "TestConnection",
+            "projectName": "kakeibo_6c720339"
+        },
+        {
+            "type": "java",
+            "name": "Launch TestConnection",
+            "request": "launch",
+            "mainClass": "TestConnection",
+            "projectName": "KAKEIBO",
+            "classPaths": [
+                "lib/*"
+            ]
+        }
+    ]
+}

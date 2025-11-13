@@ -2,8 +2,9 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import model.User;
 
@@ -57,6 +58,37 @@ public class UserDao {
                 e.printStackTrace();
                 return false;
             }
+        }
+    }
+
+    // ユーザー情報を検索する
+    public User findUser(String username) {
+        // SQL文: user_idは自動生成されるので、残りの3項目を登録
+        String sql = "SELECT user_id, user_name, user_password_hash, user_admin FROM user_mst WHERE user_name = ?";
+
+        // try-with-resources で接続やSQL実行を扱う
+        try (Connection con = getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+            // 1. SQLの?に値をセットする
+            ps.setString(1, username);
+            // 2. SELECT文を実行し、結果セットを受け取る
+            ResultSet rs = ps.executeQuery();
+            // 3. 結果の確認
+            if (rs.next()) {
+                // ユーザーを見つけてuserを返す
+                User user = new User(
+                        rs.getString("user_name"),
+                        rs.getString("user_password_hash"),
+                        rs.getInt("user_admin"));
+                user.setUserId(rs.getInt("user_id"));
+                return user;
+            }
+            // ユーザーがいない場合nullを返す
+            return null;
+        } catch (SQLException e) {
+            System.err.println("検索失敗: データベース処理中に予期せぬエラーが発生しました。");
+            e.printStackTrace();
+            return null;
         }
     }
 }

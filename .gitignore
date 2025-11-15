@@ -1,11 +1,10 @@
 # テストコードとコンパイル結果を除外
 *.src/shikatanashi
 *.vscode
-*.bin
 *.lib
 
 # コンパイル結果のフォルダを除外
-*.bin/
+*.bin
 # Compiled class file
 *.class
 

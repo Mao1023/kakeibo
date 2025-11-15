@@ -69,22 +69,28 @@ public class UserDao {
         // try-with-resources で接続やSQL実行を扱う
         try (Connection con = getConnection();
                 PreparedStatement ps = con.prepareStatement(sql)) {
-            // 1. SQLの?に値をセットする
+
+            // ★★★ 修正箇所: ここにsetStringを入れる ★★★
             ps.setString(1, username);
+
             // 2. SELECT文を実行し、結果セットを受け取る
-            ResultSet rs = ps.executeQuery();
-            // 3. 結果の確認
-            if (rs.next()) {
-                // ユーザーを見つけてuserを返す
-                User user = new User(
-                        rs.getString("user_name"),
-                        rs.getString("user_password_hash"),
-                        rs.getInt("user_admin"));
-                user.setUserId(rs.getInt("user_id"));
-                return user;
-            }
+            try (ResultSet rs = ps.executeQuery()) { // rsをtry-with-resourcesに含める
+
+                // 3. 結果の確認
+                if (rs.next()) {
+                    // ユーザーを見つけてuserを返す
+                    User user = new User(
+                            rs.getString("user_name"),
+                            rs.getString("user_password_hash"),
+                            rs.getInt("user_admin"));
+                    user.setUserId(rs.getInt("user_id"));
+                    return user;
+                }
+            } // rsがここで閉じられる
+
             // ユーザーがいない場合nullを返す
             return null;
+
         } catch (SQLException e) {
             System.err.println("検索失敗: データベース処理中に予期せぬエラーが発生しました。");
             e.printStackTrace();

@@ -3,8 +3,6 @@ package util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import model.User;
-
 public class PasswordUtil {
 
     // ハッシュ化

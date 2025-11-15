@@ -1,6 +1,6 @@
 # テストコードとコンパイル結果を除外
 *.src/shikatanashi
-*.vscode
+*..vscode
 *.lib
 
 # コンパイル結果のフォルダを除外

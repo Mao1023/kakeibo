@@ -1,13 +1,13 @@
 package main;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.ServletException; // ★javax -> jakarta
+import jakarta.servlet.annotation.WebServlet; // ★javax -> jakarta
+import jakarta.servlet.http.HttpServlet; // ★javax -> jakarta
+import jakarta.servlet.http.HttpServletRequest; // ★javax -> jakarta
+import jakarta.servlet.http.HttpServletResponse; // ★javax -> jakarta
 // このアノテーションで、HTMLフォームからのアクセスURLを指定します
+
 @WebServlet("/LogonServlet")
 public class LogonServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -26,7 +26,10 @@ public class LogonServlet extends HttpServlet {
         // 【手順 3: 結果に応じた画面遷移】
         // ログイン成功なら menu.htmlへ、失敗なら logon.htmlへ戻る
 
-        response.setContentType("text/html; charset=UTF-8");
-        response.getWriter().println("<html><body><h1>認証処理が実行されました！</h1></body></html>");
+        // 絶対パスでリダイレクト先を指定することで、確実にメニュー画面に遷移させます
+        // getContextPath() で Webアプリ名 (/kakeibo) を取得し、それに menu.html を連結します
+        String contextPath = request.getContextPath(); // /kakeibo を取得
+        String redirectURL = contextPath + "/menu.html";
+        response.sendRedirect(redirectURL); // ★このリダイレクトが成功します★
     }
 }
